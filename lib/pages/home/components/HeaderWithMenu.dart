@@ -8,9 +8,10 @@ import 'package:test_firebase_iot/widgets/menu_items.dart';
 class HeaderWithMenu extends StatelessWidget {
   const HeaderWithMenu({
     Key? key,
-    required this.size,
+    required this.size,  this.username ="",
   }) : super(key: key);
 
+  final String username;
   final Size size;
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class HeaderWithMenu extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'UJI COBA',
+                      username,
                       style: whiteTextStyle.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

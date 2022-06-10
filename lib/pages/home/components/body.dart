@@ -3,6 +3,11 @@ import 'package:test_firebase_iot/pages/home/components/HeaderWithMenu.dart';
 import 'package:test_firebase_iot/constants/theme.dart';
 
 class Body extends StatelessWidget {
+
+  final String username;
+
+  const Body({Key? key, this.username = ""}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // It will provie us total height  and width of our screen
@@ -11,7 +16,7 @@ class Body extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        HeaderWithMenu(size: size),
+        HeaderWithMenu(username: username,size: size),
         SizedBox(height: edge),
       ],
     );

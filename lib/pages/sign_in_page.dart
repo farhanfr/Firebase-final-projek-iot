@@ -16,7 +16,7 @@ class _SignInPageState extends State<SignInPage> {
   bool _obscureText = true;
   bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   String errorMessage = '';
 
@@ -77,11 +77,11 @@ class _SignInPageState extends State<SignInPage> {
                   TextFormField(
                     decoration: inputDecoration.copyWith(
                       label: Text(
-                        'Masukkan email',
+                        'Masukkan Username',
                       ),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
+                    controller: usernameController,
                     validator: (String? value) {
                       // Validation condition
                       if (value!.trim().isEmpty) {
@@ -144,7 +144,9 @@ class _SignInPageState extends State<SignInPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => HomePage(),
+                                  builder: (context) => HomePage(
+                                    username: usernameController.text,
+                                  ),
                                 ),
                               ),
                             },

@@ -5,14 +5,16 @@ import 'package:test_firebase_iot/pages/home/components/body.dart';
 import 'package:test_firebase_iot/constants/theme.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key, this.username = ""}) : super(key: key);
+
+  final String username;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: greyBgColor,
       appBar: buildAppBar(),
-      body: Body(),
+      body: Body(username: username,),
     );
   }
 
