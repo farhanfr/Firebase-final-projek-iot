@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 
-class Home extends StatefulWidget {
+class CartPage extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _CartPageState createState() => _CartPageState();
 }
 
-class _HomeState extends State<Home> {
+class _CartPageState extends State<CartPage> {
   final fb = FirebaseDatabase.instance;
   @override
   Widget build(BuildContext context) {

@@ -2,17 +2,27 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:test_firebase_iot/constants/theme.dart';
+import 'package:test_firebase_iot/pages/scan/scan_page.dart';
 import 'package:test_firebase_iot/widgets/menu_items.dart';
 
-class HeaderWithMenu extends StatelessWidget {
+class HeaderWithMenu extends StatefulWidget {
   const HeaderWithMenu({
     Key? key,
-    required this.size,  this.username ="",
+    required this.size,
+    this.username = "",
   }) : super(key: key);
 
   final String username;
   final Size size;
+
+  @override
+  State<HeaderWithMenu> createState() => _HeaderWithMenuState();
+}
+
+class _HeaderWithMenuState extends State<HeaderWithMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,7 +62,7 @@ class HeaderWithMenu extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      username,
+                      widget.username,
                       style: whiteTextStyle.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -96,12 +106,12 @@ class HeaderWithMenu extends StatelessWidget {
                         icon: 'assets/icons/new-file-icon.svg',
                         title: 'Mulai Belanja',
                         press: () => {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => NewNotePage(),
-                          //   ),
-                          // ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ScanPage(),
+                            ),
+                          ),
                         },
                       ),
                       MenuItems(

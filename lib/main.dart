@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Sipas Wringinsongo App', routes: {
+    return MaterialApp(title: 'Smart Trolley App', routes: {
       '/': (context) => SplashPage(),
       '/main': (context) => SignInPage(),
     });
