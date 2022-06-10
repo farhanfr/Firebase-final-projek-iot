@@ -51,7 +51,7 @@ class _ScanState extends State<Scan> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CartPage(),
+            builder: (context) => CartPage(deviceId: result!.code.toString(),),
           ),
         );
       }
