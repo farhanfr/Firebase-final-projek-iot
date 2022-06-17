@@ -3,10 +3,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 
 class CartPage extends StatefulWidget {
-
   final String deviceId;
 
-  const CartPage({Key? key, this.deviceId ="1a"}) : super(key: key);
+  const CartPage({Key? key, this.deviceId = "1a"}) : super(key: key);
   @override
   _CartPageState createState() => _CartPageState();
 }
@@ -14,12 +13,16 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   final fb = FirebaseDatabase.instance;
 
-  int totHar = 0 ;
-  
+  int totHar = 0;
+
   @override
   Widget build(BuildContext context) {
     // final ref = fb.ref().child('produk');
-    final ref2 = fb.ref().child('cart').orderByChild("id_device").equalTo(widget.deviceId);
+    final ref2 = fb
+        .ref()
+        .child('cart')
+        .orderByChild("id_device")
+        .equalTo(widget.deviceId);
     print(widget.deviceId);
     return Scaffold(
       // floatingActionButton: FloatingActionButton(
@@ -130,85 +133,103 @@ class _CartPageState extends State<CartPage> {
               for (var i = 0; i < data.length; i++) {
                 products.add(CartProduct(data[i]['harga'], data[i]['nama']));
               }
-      
-              print("ISI : $products");
-               totHar = products.fold(0,(prev,curr)=>prev + curr.harga );
+              totHar = products.fold(0, (prev, curr) => prev + curr.harga);
+              final setTotal =
+                  ref2.ref.child('1').child('totalHarga').set(totHar);
               return Container(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: 
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("List Produk",style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: values['produk'].length, 
-                          separatorBuilder: (ctx,idx)=>SizedBox(height: 10,), 
-                          itemBuilder: (ctx,index2){
-                            // if (values['produk'][index2] == null) {
-                            //   totHar = 0;
-                            // }else{
-                            //   totHar = values['produk'].fold(0,(prev,el)=>prev + values['produk'].harga);
-                            // }
-                            //  = : values['produk'][index2]['harga'];
-                            return
-                            values['produk'][index2] == null ? SizedBox() : 
-                            Container(
-                              child:Row(
-                                children: [
-                                  Text("${values['produk'][index2]['nama']} - Rp.${values['produk'][index2]['harga']}",style: TextStyle(fontSize: 16),)
-                                ],  
-                              )
-                            );
-                          },
-                          
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "List Produk",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
                         ),
-                        // Text(
-                        //   'nama : ${values['produk']['nama']}',
-                        //   style: TextStyle(
-                        //     fontSize: 25,
-                        //     fontWeight: FontWeight.bold,
-                        //   ),
-                        // ),
-                        // Text(
-                        //   'harga : ${values['produk']['harga'].toString()}',
-                        //   style: TextStyle(
-                        //     fontSize: 25,
-                        //     fontWeight: FontWeight.bold,
-                        //   ),
-                        // ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Divider(height: 2,color: Colors.black,),
+                      ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: values['produk'].length,
+                        separatorBuilder: (ctx, idx) => SizedBox(
+                          height: 10,
                         ),
-                        // Text(
-                        //   'jumlah : ${values['jumlah']}',
-                        //   style: TextStyle(
-                        //     fontSize: 25,
-                        //     fontWeight: FontWeight.bold,
-                        //   ),
-                        // ),
-                        Text(
-                          'total harga : Rp. ${totHar.toString()}',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        itemBuilder: (ctx, index2) {
+                          return values['produk'][index2] == null
+                              ? SizedBox()
+                              : (values['produk'][index2]['nama'] == "kosong"
+                                  ? Container()
+                                  : Container(
+                                      child: Row(
+                                      children: [
+                                        Text(
+                                          "${values['produk'][index2]['nama']} - ${values['produk'][index2]['harga']}",
+                                          style: TextStyle(fontSize: 16),
+                                        )
+                                      ],
+                                    )));
+                        },
+                      ),
+
+                      // Text(
+                      //   'nama : ${values['produk']['nama']}',
+                      //   style: TextStyle(
+                      //     fontSize: 25,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      // Text(
+                      //   'harga : ${values['produk']['harga'].toString()}',
+                      //   style: TextStyle(
+                      //     fontSize: 25,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Divider(
+                          height: 2,
+                          color: Colors.black,
                         ),
-                        SizedBox(height: 30,),
-                        Container(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.blue),
-                onPressed: () {},
-                child: Text('Bayar')),
+                      ),
+                      // Text(
+                      //   'jumlah : ${values['jumlah']}',
+                      //   style: TextStyle(
+                      //     fontSize: 25,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      Text(
+                        'jumlah barang : -',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'total harga : Rp. ${totHar.toString()}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            style:
+                                ElevatedButton.styleFrom(primary: Colors.blue),
+                            onPressed: () {},
+                            child: Text('Bayar')),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -219,7 +240,7 @@ class _CartPageState extends State<CartPage> {
   }
 }
 
-class CartProduct{
+class CartProduct {
   final int harga;
   final String nama;
 
