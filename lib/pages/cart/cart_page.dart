@@ -25,20 +25,6 @@ class _CartPageState extends State<CartPage> {
         .equalTo(widget.deviceId);
     print(widget.deviceId);
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.indigo[900],
-      //   onPressed: () {
-      //     // Navigator.push(
-      //     //   context,
-      //     //   MaterialPageRoute(
-      //     //     builder: (_) => addnote(),
-      //     //   ),
-      //     // );
-      //   },
-      //   child: Icon(
-      //     Icons.add,
-      //   ),
-      // ),
       appBar: AppBar(
         title: Text(
           'Keranjang',
@@ -50,74 +36,7 @@ class _CartPageState extends State<CartPage> {
       ),
       body: ListView(
         children: [
-          // FirebaseAnimatedList(
-          //   query: ref,
-          //   physics: NeverScrollableScrollPhysics(),
-          //   shrinkWrap: true,
-          //   itemBuilder: (context, snapshot, animation, index) {
-          //     Map<dynamic, dynamic> values =
-          //         snapshot.value as Map<dynamic, dynamic>;
-          //     return GestureDetector(
-          //       onTap: () {},
-          //       child: Container(
-          //         child: Padding(
-          //           padding: const EdgeInsets.all(8.0),
-          //           child: ListTile(
-          //             shape: RoundedRectangleBorder(
-          //               side: BorderSide(
-          //                 color: Colors.white,
-          //               ),
-          //               borderRadius: BorderRadius.circular(10),
-          //             ),
-          //             tileColor: Colors.indigo[100],
-          //             trailing: IconButton(
-          //               icon: Icon(
-          //                 Icons.delete,
-          //                 color: Colors.red[900],
-          //               ),
-          //               onPressed: () {
-          //                 ref.child(snapshot.key!).remove();
-          //               },
-          //             ),
-          //             title: Column(
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               children: [
-          //                 Text(
-          //                   'Barcode : ${values['barcode'].toString()}',
-          //                   style: TextStyle(
-          //                     fontSize: 25,
-          //                     fontWeight: FontWeight.bold,
-          //                   ),
-          //                 ),
-          //                 Text(
-          //                   'Nama : ${values['nama'].toString()}',
-          //                   style: TextStyle(
-          //                     fontSize: 25,
-          //                     fontWeight: FontWeight.bold,
-          //                   ),
-          //                 ),
-          //                 Text(
-          //                   'Harga : ${values['harga'].toString()}',
-          //                   style: TextStyle(
-          //                     fontSize: 25,
-          //                     fontWeight: FontWeight.bold,
-          //                   ),
-          //                 ),
-          //                 Text(
-          //                   'Stok : ${values['stok'].toString()}',
-          //                   style: TextStyle(
-          //                     fontSize: 25,
-          //                     fontWeight: FontWeight.bold,
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ),
+        
           FirebaseAnimatedList(
             query: ref2,
             shrinkWrap: true,
@@ -125,6 +44,7 @@ class _CartPageState extends State<CartPage> {
             itemBuilder: (context, snapshot, animation, index) {
               Map<dynamic, dynamic> values =
                   snapshot.value as Map<dynamic, dynamic>;
+              print("ISINEE" + values['produk'].toString());
               List<dynamic> data = values['produk'].toList();
               data.removeWhere((element) => element == null);
               print("ISINYA : $data");
@@ -149,26 +69,27 @@ class _CartPageState extends State<CartPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      SizedBox(height: 10,),
                       ListView.separated(
                         shrinkWrap: true,
-                        itemCount: values['produk'].length,
+                        itemCount: products.length,
                         separatorBuilder: (ctx, idx) => SizedBox(
                           height: 10,
                         ),
                         itemBuilder: (ctx, index2) {
-                          return values['produk'][index2] == null
-                              ? SizedBox()
-                              : (values['produk'][index2]['nama'] == "kosong"
-                                  ? Container()
-                                  : Container(
+                          return Container(
                                       child: Row(
                                       children: [
                                         Text(
-                                          "${values['produk'][index2]['nama']} - ${values['produk'][index2]['harga']}",
+                                          "${products[index2].nama} - ${products[index2].harga}",
                                           style: TextStyle(fontSize: 16),
                                         )
                                       ],
-                                    )));
+                                    ));
+                              // (values['produk'][index2]['nama'] == "kosong"
+                              //     ? Container()
+                              //     : 
+                                  
                         },
                       ),
 
@@ -201,7 +122,7 @@ class _CartPageState extends State<CartPage> {
                       //   ),
                       // ),
                       Text(
-                        'jumlah barang : -',
+                        'jumlah barang : ${values['jumlah'].toString()}',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -225,7 +146,13 @@ class _CartPageState extends State<CartPage> {
                         child: ElevatedButton(
                             style:
                                 ElevatedButton.styleFrom(primary: Colors.blue),
-                            onPressed: () {},
+                            onPressed: () {
+                              Scaffold.of(context).showSnackBar(SnackBar(
+            content: const Text('Masih Dalam Pengembangan'),
+            duration: const Duration(seconds: 1),
+           
+          ));
+                            },
                             child: Text('Bayar')),
                       ),
                     ],
